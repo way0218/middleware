@@ -1,9 +1,12 @@
 package middleware
 
+// InterfaceFunc .
+type InterfaceFunc func(options interface{}, next func(interface{}))
+
 // Middleware .
 type Middleware struct {
-	Cache       []func(options interface{}, next func(interface{}))
-	Middlewares []func(options interface{}, next func(interface{}))
+	Cache       []InterfaceFunc
+	Middlewares []InterfaceFunc
 }
 
 // New 初始化Middleware
@@ -12,7 +15,7 @@ func New() *Middleware {
 }
 
 // 注册中间件
-func (m *Middleware) use(f ...func(options interface{}, next func(interface{}))) *Middleware {
+func (m *Middleware) use(f ...InterfaceFunc) *Middleware {
 	m.Cache = append(m.Cache, f...)
 	return m
 }
